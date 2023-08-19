@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchblogs } from '../store/slices/blogSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { RotatingSquare as Loader } from 'react-loader-spinner';
-import './Styles/Home.css';
+// import './Styles/Home.css';
 
 const Home = () => {
     const navigate = useNavigate();
