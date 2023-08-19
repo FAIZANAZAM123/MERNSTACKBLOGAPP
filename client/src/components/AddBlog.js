@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
-// import './Styles/Addblog.css';
+import './Styles/Addblog.css';
 import { RotatingSquare as Loader } from 'react-loader-spinner';
 
 const AddBlog = () => {
