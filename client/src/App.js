@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-// import './App.css';
-
-function App() {
+import React, { createContext, useReducer } from 'react'
+import Navbar from './components/Navbar'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './components/Home';
+import Profile from './components/Profile';
+import Contact from './components/Contact';
+import  Login from './components/Login';
+import Signup from './components/Signup';
+import Error404 from './components/Error404';
+import Logout from './components/Logout';
+import Main from './components/Main';
+import AddBlog from'./components/AddBlog'
+import BlogDetails from './components/BlogDetails'
+import MyBlog from './components/MyBlog';
+import Editprofile from './components/Editprofile'
+import {initialState,reducer} from './components/reducer/useReducer'
+export const UserContext = createContext();
+const App = () => {
+  const [state, dispatch] = useReducer(reducer,initialState );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+<UserContext.Provider value={{state,dispatch}}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+        <Route exact path='/' element={<Main/>} />
+          <Route exact path='/home' element={<Home />} />
+          <Route exact path='/profile' element={<Profile />} /> 
+           <Route exact path='/contact' element={<Contact />} />
+           <Route exact path='/blogdetails/:id' element={<BlogDetails/>} />
+
+           <Route exact path='/addblog' element={<AddBlog />} />
+           <Route exact path='/editdata' element={<Editprofile />} />
+
+
+           <Route exact path='/myblogs' element={<MyBlog />} />
+           <Route exact path='/login' element={<Login />} />
+           <Route exact path='/signup' element={<Signup />} />
+           <Route exact path='/logout' element={<Logout />} />
+
+
+           <Route path='*' element={<Error404 />} />
+        </Routes>
+      </BrowserRouter>
+
+      </UserContext.Provider>
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
