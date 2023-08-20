@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-//  import './Styles/Contact.css'
+ import './Styles/Contact.css'
 const Contact = () => {
     const [userdata, setuserdata] = useState();
     const [contactdata, setcontactdata] = useState({
