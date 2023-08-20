@@ -1,11 +1,11 @@
 
+
 body{
     background-image: url('https://cdn.pixabay.com/photo/2019/03/22/19/32/table-4074014_1280.jpg');
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: center;
 background-size: cover;
-height: 100%;
     filter: brightness(1.5);
 
 }

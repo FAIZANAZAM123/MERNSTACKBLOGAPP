@@ -1,10 +1,8 @@
-/* Navbar.css */
 
-/* Base Styles */
 
 
 .logo-text1 {
-    animation: logoAnimation 3s ease-in-out infinite; /* You can adjust the duration as needed */
+    animation: logoAnimation 3s ease-in-out infinite; 
     display: inline-block;
     color:pink;
     
@@ -80,16 +78,16 @@
     font-size: 18px;
     transition: all 0.3s ease;
     border-radius: 8px;
-    padding: 10px 20px; /* adding some padding for a better hover effect */
+    padding: 10px 20px; 
 }
 
 .links:hover{
     color: #fff;
-    background: red; /* gradient background for hovered links */
-    transform: translateY(-3px); /* subtle lift */
+    background: red;
+    transform: translateY(-3px);
 }
 .links:active, .links:focus {
-    color: white;  /* Or any other color you desire */
+    color: white; 
 }
 
 .fas {
@@ -124,7 +122,6 @@
     }
 }
 
-/* Media Queries for responsiveness */
 
 @media (max-width: 767px) {
     .navbar-nav {

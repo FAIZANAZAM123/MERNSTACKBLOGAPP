@@ -22,8 +22,32 @@ const BlogSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Registration",
         required: true
+    },
+    comments:[
+        {
+        comment:{
+            type:String,
+            required:true
+        }
     }
+    ]
 });
 
+
+BlogSchema.methods.addcomment = async function(comment) {
+    try {
+        this.comments = this.comments.concat({ comment:comment});
+
+
+        await this.save();
+        return this.comments;
+
+
+    } catch (error) {
+
+    }
+}
 const Blog = mongoose.model("Blog", BlogSchema);
+
+
 module.exports = Blog;
