@@ -47,9 +47,12 @@ BlogSchema.methods.addcomment = async function(comment) {
 
     }
 }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 const Blog = mongoose.model("Blog", BlogSchema);
 
 

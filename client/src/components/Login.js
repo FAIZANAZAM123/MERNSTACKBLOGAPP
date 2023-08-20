@@ -20,7 +20,12 @@ const Login = () => {
     }
     const authdata = async (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         
+=======
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userId');
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         const { email, password } = cre;
         const response = await fetch('/signin', {
             method: "POST",
@@ -53,7 +58,11 @@ const Login = () => {
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-8">
+<<<<<<< HEAD
                         <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpeg'})` }} className="cardlogin p-4  animated-form">
+=======
+                        <div className="cardlogin p-4  animated-form">
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
                             <h2 className="text-center   mb-4">BlogApp Login</h2>
                             <form method='POST'>
                                 <div className="mb-3">

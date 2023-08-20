@@ -18,24 +18,19 @@ if(!blogs){
 return res.status(200).json({blogs})
 
 });
-Blogrouter.get('/getBlogs/:id',authenticate,  async (req, res) => {
+Blogrouter.get('/getBlogs/:id', authenticate, async (req, res) => {
     const id = req.params.id;
     let blog;
     try {
         blog = await Blog.findById(id).populate('user');
-    
     } catch (err) {
-      return console.log(err);
+        return console.log(err);
     }
-    
-   
+
     if (!blog) {
-      return res.status(404).json({ message: "No Blog Found" });
+        return res.status(404).json({ message: "No Blog Found" });
     }
     return res.status(200).json({ blog });
-
-
-
 });
 
 

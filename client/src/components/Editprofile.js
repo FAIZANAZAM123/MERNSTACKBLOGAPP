@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import './Styles/Editprofile.css'
+
 const Editprofile = () => {
     const navigate = useNavigate();
     const { state } = useContext(UserContext);
@@ -71,11 +72,11 @@ const Editprofile = () => {
 
     return (
         <div className="container mt-3" id="edit-profile-container">
-        <div className="row justify-content-center">
-            <div className="col-md-6">
-                <div className="card p-4 shadow" id="edit-profile-card">
-                    <h2 className="text-center" id="edit-profile-title">Edit User Profile</h2>
-                    <form method="POST">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card p-4 shadow" id="edit-profile-card">
+                        <h2 className="text-center" id="edit-profile-title">Edit User Profile</h2>
+                        <form method="POST">
                         <div className="mb-3" id="edit-name-input">
                                 <label htmlFor="name" className="form-label">Name <i class="fas fa-user"></i> </label>
                                 <input 
@@ -126,7 +127,15 @@ const Editprofile = () => {
             </div>
         </div>
     );
-    
 }
 
 export default Editprofile;
+
+
+
+
+
+
+
+
+

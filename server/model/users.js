@@ -100,6 +100,7 @@ userSchema.methods.addmessage = async function (name, email, message) {
 
     }
 }
+<<<<<<< HEAD
 userSchema.methods.addliked = async function (blogId) {
     try{
     if (!this.likedBlogs.includes(blogId)) {
@@ -127,6 +128,8 @@ userSchema.methods.unlikeBlog = async function(blogId) {
 }
 
 
+=======
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 
 
 const User = new mongoose.model('Registration', userSchema);

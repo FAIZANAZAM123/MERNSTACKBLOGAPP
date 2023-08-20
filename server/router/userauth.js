@@ -4,6 +4,7 @@ const user = require('../model/users');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authenticate = require('../Middleware/authenticate');
+<<<<<<< HEAD
 const nodemailer = require('nodemailer');
 const {google}=require('googleapis');
 const CLIENT_ID='1035114720658-os83srdr4ffqp750h7as3u4oporb06js.apps.googleusercontent.com'
@@ -12,6 +13,8 @@ const REDIRECT_URI='https://developers.google.com/oauthplayground'
 const REFRESH_TOKEN='1//042wjE0-h2KnqCgYIARAAGAQSNwF-L9IrsptJhbRuCkK9c8VQBi6JHWeFLvepTNNlESzaXY9M1AIDKqSXnhqtHOHdP_8JCRl59ek'
 const oAuth2Client=new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REFRESH_TOKEN);
 oAuth2Client.setCredentials({refresh_token:REFRESH_TOKEN});
+=======
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 
 router.post("/register", async (req, res) => {
     try {
@@ -29,8 +32,13 @@ router.post("/register", async (req, res) => {
             res.status(422).json({ error: 'User Already exists' })
         }
         else {
+<<<<<<< HEAD
             const user1 = new user({ name: name, email: email, phone: phone, password: password, blogs: [] });
             await console.log(user1);
+=======
+            const user1 = new user({ name: name, email: email, phone: phone, password: password,blogs:[] });
+await console.log(user1);
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
             await user1.save();
             if (user1) {
                 res.status(201).json({ message: 'User Registered Successfully' });
@@ -45,7 +53,11 @@ router.post("/register", async (req, res) => {
 router.post("/signin", async (req, res) => {
 
     try {
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         const email = req.body.email;
         const password = req.body.password;
         console.log(email);
@@ -69,7 +81,11 @@ router.post("/signin", async (req, res) => {
             })
             res.status(201).json({
                 message: "you are logged in successfully",
+<<<<<<< HEAD
                 userId: response._id
+=======
+                userId: response._id 
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
             });
         }
         else {
@@ -90,7 +106,11 @@ router.post("/signin", async (req, res) => {
 
 router.get("/logout", authenticate, (req, res) => {
 
+<<<<<<< HEAD
     res.clearCookie('jwtoken', { path: '/' });
+=======
+    res.clearCookie('jwtoken',{path:'/'});
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     res.send('User Logout');
 
 });
@@ -103,6 +123,7 @@ router.get("/contact", authenticate, (req, res) => {
     res.send(req.rootuser);
 
 });
+<<<<<<< HEAD
 router.post("/contact", authenticate, async (req, res) => {
     const { name, email, message } = req.body;
     if (!name || !email || !message) {
@@ -168,6 +189,38 @@ router.get("/getAll", authenticate, async (req, res) => {
         return res.status(404).json({ message: "no user found" })
     }
     return res.status(200).json({ Users });
+=======
+router.post("/contact",authenticate, async(req, res) => {
+   const {name,email,message}=req.body;
+   if(!name||!email||!message){
+    return res.json({message:'Invalid Credentials'});
+   }
+
+   const data=await user.findOne({_id:req.userID});
+   
+   if(data)
+   {
+    await data.addmessage(name,email,message);
+    await data.save();
+    res.status(200).json('Message sent successfully')
+   }
+
+});
+
+router.get("/getAll", authenticate, async(req, res) => {
+    let Users;
+    try {
+        Users=await user.find();
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+    if(!Users){
+        return res.status(404).json({message:"no user found"})
+    }
+return res.status(200).json({Users});
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 });
 
 
@@ -193,15 +246,23 @@ router.get("/likedBlogs", authenticate, async (req, res) => {
 
 router.post("/likeBlog/:blogId", authenticate, async (req, res) => {
     try {
+<<<<<<< HEAD
         console.log("Comed here")
 
         const { blogId } = req.params;
         console.log(blogId);
+=======
+        const { blogId } = req.params;
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         const userData = await user.findById(req.userID);
         if (!userData) {
             return res.status(404).json({ message: "User not found" });
         }
+<<<<<<< HEAD
         await userData.addliked(blogId);
+=======
+        userData.likedBlogs.push(blogId);
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         await userData.save();
         res.status(200).json({ message: 'Blog liked successfully' });
     } catch (error) {
@@ -209,6 +270,7 @@ router.post("/likeBlog/:blogId", authenticate, async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+<<<<<<< HEAD
 router.delete("/unlikeBlog/:blogId", authenticate, async (req, res) => {
     try {
         console.log("comed here in delete")
@@ -228,6 +290,10 @@ router.delete("/unlikeBlog/:blogId", authenticate, async (req, res) => {
 
 
 router.patch("/editdata/:id", authenticate, async (req, res) => {
+=======
+
+router.patch("/editdata/:id",authenticate, async (req, res) => {
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     try {
         const { name, email, phone, password } = req.body;
         if (!name || !email || !phone || !password) {
@@ -239,7 +305,15 @@ router.patch("/editdata/:id", authenticate, async (req, res) => {
         if (!currentUser) {
             return res.status(404).json({ error: "User not found" });
         }
+<<<<<<< HEAD
         currentUser.name = name;
+=======
+
+        // Check if another user has the same email
+
+        // Update user details
+        currentUser.name = name;        
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         currentUser.email = email;
         currentUser.phone = phone;
         currentUser.password = password;

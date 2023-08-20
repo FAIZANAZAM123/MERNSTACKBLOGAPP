@@ -30,27 +30,19 @@ const App = () => {
           <Route exact path='/profile' element={<Profile />} /> 
            <Route exact path='/contact' element={<Contact />} />
            <Route exact path='/blogdetails/:blogId' element={<BlogDetails/>} />
-
            <Route exact path='/addblog' element={<AddBlog />} />
            <Route exact path='/editdata' element={<Editprofile />} />
-
-
            <Route exact path='/myblogs' element={<MyBlog />} />
            <Route exact path='/likedblogs' element={<LikedBlogs />} />
            <Route exact path='/contactblogger/:email' element={<ContactBlogger />} />
-           <Route exact path='/login' element={<Login />} />
+            <Route exact path='/login' element={<Login />} />
            <Route exact path='/signup' element={<Signup />} />
            <Route exact path='/logout' element={<Logout />} />
-
-
            <Route path='*' element={<Error404 />} />
         </Routes>
       </BrowserRouter>
-
       </UserContext.Provider>
-
     </div>
   )
 }
-
 export default App

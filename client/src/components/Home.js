@@ -12,12 +12,11 @@ const Home = () => {
     const blogStatus = useSelector((state) => state.blogs.allBlogs.status);
     const blogError = useSelector((state) => state.blogs.allBlogs.error);
     const [searchTerm, setSearchTerm] = useState('');
+
     const [LikedBlogs, setLikedBlogs] = useState([]);
     const [clickedlike, setclickedlike] = useState();
 
     const handleLike = async (blogId) => {
-        console.log(blogId, "In the home")
-        console.log("I JANDLE CLIS", LikedBlogs);
         setclickedlike(blogId); // Set the clicked blog ID
 
         const currentlyLiked = LikedBlogs.includes(blogId);
@@ -32,10 +31,8 @@ const Home = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-
-                }),
-                credentials: 'include', // Include cookies for authenticated requests
+                body: JSON.stringify({}),
+                credentials: 'include',
             });
 
             const data = await response.json();
@@ -56,6 +53,7 @@ const Home = () => {
         }
         return str.slice(0, num) + '...';
     }
+
     const getdata = async () => {
         dispatch(fetchblogs());
 
@@ -70,25 +68,19 @@ const Home = () => {
 
             if (response.ok) {
                 const likedBlogs = await response.json();
-                console.log(likedBlogs, "These are liked bogs")
-
                 likedBlogs.forEach(element => {
                     setLikedBlogs(prevLikedBlogs => [...prevLikedBlogs, element._id]);
-                    console.log(LikedBlogs, "CONSOLED LIKE BLOGS");
-
                 });
-
             } else {
                 console.error('Failed to fetch liked blogs:', await response.text());
             }
         } catch (error) {
             console.error('Error fetching liked blogs:', error);
         }
-
     }
+
     useEffect(() => {
         getdata();
-
     }, []);
 
     if (blogStatus === 'loading') {
@@ -111,7 +103,6 @@ const Home = () => {
     return (
         <>
             <div className="homecontainer container ">
-
                 <div className="row mt-3">
                     <input
                         type="text"
@@ -120,53 +111,47 @@ const Home = () => {
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
                     />
-                    {
-                        blogs && blogs.length > 0 ? (
-                            <div className="blog-card">
-                                {filteredBlogs.map((blog) => {
-                                    let hasRenderedHeading = false;
-                                    let hasRenderedParagraph = false;
-                                    let hasRenderedImage = false;
+                    {blogs && blogs.length > 0 ? (
+                        <div className="blog-card">
+                            {filteredBlogs.map((blog) => {
+                                let hasRenderedHeading = false;
+                                let hasRenderedParagraph = false;
+                                let hasRenderedImage = false;
 
-                                    return (
-                                        <div key={blog._id} className="card innerhomecard col-3 me-2 mb-4">
-                                            {blog.content.map((item, idx) => {
-                                                switch (item.type) {
-                                                    case 'heading':
-                                                        if (!hasRenderedHeading) {
-                                                            hasRenderedHeading = true;
-                                                            return <h1 className="card-title innercard-title" key={idx}>{item.value}</h1>;
-                                                        }
-                                                        break;
-                                                    case 'paragraph':
-                                                        if (!hasRenderedParagraph) {
-                                                            hasRenderedParagraph = true;
-                                                            const string = item.value;
-                                                            return <p className="innercard-text card-text" key={idx}>{string.length > 90 ? truncateString(string, 90) : string}</p>;
-                                                        }
-                                                        break;
-                                                    case 'image':
-                                                        if (!hasRenderedImage) {
-                                                            hasRenderedImage = true;
-                                                            return (
-                                                                <img key={idx} src={item.value} className="card-img-top innercard-img-top" alt="Blog Content" />
-                                                            );
-                                                        }
-                                                        break;
-                                                    default:
-                                                        return null;
-                                                }
-                                                return null;
-                                            })}
-                                            <div className="innercard-body">
-                                                <Link to={`/blogdetails/${blog._id}`} className="btn btnhome">Read More{console.log(blog._id)}</Link>
-
-                                            </div>
-
+                                return (
+                                    <div key={blog._id} className="card innerhomecard col-3 me-2 mb-4">
+                                        {blog.content.map((item, idx) => {
+                                            switch (item.type) {
+                                                case 'heading':
+                                                    if (!hasRenderedHeading) {
+                                                        hasRenderedHeading = true;
+                                                        return <h1 className="card-title innercard-title" key={idx}>{item.value}</h1>;
+                                                    }
+                                                    break;
+                                                case 'paragraph':
+                                                    if (!hasRenderedParagraph) {
+                                                        hasRenderedParagraph = true;
+                                                        const string = item.value;
+                                                        return <p className="innercard-text card-text" key={idx}>{string.length > 90 ? truncateString(string, 90) : string}</p>;
+                                                    }
+                                                    break;
+                                                case 'image':
+                                                    if (!hasRenderedImage) {
+                                                        hasRenderedImage = true;
+                                                        return (
+                                                            <img key={idx} src={item.value} className="card-img-top innercard-img-top" alt="Blog Content" />
+                                                        );
+                                                    }
+                                                    break;
+                                                default:
+                                                    return null;
+                                            }
+                                            return null;
+                                        })}
+                                        <div className="innercard-body">
+                                            <Link to={`/blogdetails/${blog._id}`} className="btn btnhome">Read More</Link>
                                             <svg
-                                                onClick={() => {
-                                                    handleLike(blog._id);
-                                                }}
+                                                onClick={() => handleLike(blog._id)}
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24"
                                                 fill={LikedBlogs.includes(blog._id) ? "red" : "grey"}
@@ -177,26 +162,18 @@ const Home = () => {
                                             >
                                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                             </svg>
-
-
-
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        ) : (
-                            <p className="text-center">You have no blogs.</p>
-                        )
-                    }
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p className="text-center">You have no blogs.</p>
+                    )}
                 </div>
-
             </div>
         </>
     );
 }
 
 export default Home;
-
-
-
-

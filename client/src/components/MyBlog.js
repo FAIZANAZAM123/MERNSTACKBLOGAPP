@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserBlogs } from '../store/slices/blogSlice';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
+<<<<<<< HEAD
 import { RotatingSquare as Loader } from 'react-loader-spinner';
+=======
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 
 const MyBlog = () => {
     const navigate = useNavigate();
@@ -14,6 +17,7 @@ const MyBlog = () => {
     const { state } = useContext(UserContext);
     const { userId } = state;
 
+<<<<<<< HEAD
     const profileuser = async () => {
         try {
             const response = await fetch('/edituser', {
@@ -37,10 +41,14 @@ const MyBlog = () => {
     }
     useEffect(() => {
         profileuser();
+=======
+    useEffect(() => {
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         dispatch(fetchUserBlogs(userId));
     }, [dispatch, userId]);
 
     if (blogStatus === 'loading') {
+<<<<<<< HEAD
         return <div className="loader-container">
         <Loader
           color="pink"
@@ -52,6 +60,13 @@ const MyBlog = () => {
 
     if (blogStatus === 'failed') {
         
+=======
+        return <div>Loading...</div>;
+    }
+
+    if (blogStatus === 'failed') {
+        return navigate('/home', { replace: true });
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     }
 
     return (
@@ -78,10 +93,14 @@ const MyBlog = () => {
                                     default:
                                         return null;
                                 }
+<<<<<<< HEAD
                                
                             })
                             
                             }
+=======
+                            })}
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
                         </li>
                     ))}
                 </ul>

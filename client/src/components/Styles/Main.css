@@ -20,13 +20,21 @@ background-size: cover;
 
 .home-title {
     animation: slideInLeft 2s;
+<<<<<<< HEAD
     color:white;
+=======
+    color:black;
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     font-weight: 300;
 }
 
 .home-text {
     animation: fadeIn 3s;
+<<<<<<< HEAD
     color:white;
+=======
+    color:black;
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     font-weight: 500;
     
 }
@@ -35,8 +43,11 @@ background-size: cover;
     width: 50%;
     margin: 20px auto;
     animation: slideInRight 2s;
+<<<<<<< HEAD
     height: 1px;
 background-color: brown;
+=======
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 }
 
 @keyframes slideInLeft {

@@ -27,9 +27,13 @@
 .navbar 
 
     {
+<<<<<<< HEAD
         
         /* background: url('C:\Users\New\Downloads\WhatsApp Image 2023-08-18 at 5.24.25 PM.jpeg'); */
         /* background: url(''); */
+=======
+        background: url('C:\Users\New\Downloads\WhatsApp Image 2023-08-18 at 5.24.25 PM.jpeg');
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
         background-repeat: no-repeat;
         background-size: cover;
     

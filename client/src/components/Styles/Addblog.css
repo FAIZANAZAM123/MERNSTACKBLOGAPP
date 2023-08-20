@@ -73,23 +73,23 @@
     box-sizing: border-box;
 }
 
+
+
 .loader-containeraddblog {
     position: fixed;
     top: 30vh;
     left: 0;
     right: 0;
-    bottom:0;
+    bottom: 0;
     display: flex;
     align-items: center;
     height: 100%;
-    width: 100%;;
+    width: 100%;
     justify-content: center;
     z-index: 1000; 
 }
 
 .opacity-effect {
     opacity: 0.5;
-    pointer-events: none; /* Prevent interactions while loading */
+    pointer-events: none; 
 }
-
-

@@ -9,9 +9,13 @@ const Main = () => {
                     <p className="lead home-text">
                         The place where thoughts come to life.
                     </p>
+<<<<<<< HEAD
                     <div className='home-divider'>
 
                     </div>
+=======
+                    <hr className="my-4 home-divider" />
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
                     <p className="home-text">
                         Dive into the world of stories, insights, and experiences.
                     </p>

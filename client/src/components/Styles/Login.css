@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
 .animated-form {
     animation: appear 1s forwards;
 }
@@ -40,13 +43,22 @@ h2{
 border: 1px solid white;
     color: #fff;
     border-radius: 12px;
+<<<<<<< HEAD
     /* background: url('C:\Users\New\Downloads\WhatsApp Image 2023-08-18 at 5.24.25 PM.jpeg'); */
+=======
+    background: url('C:\Users\New\Downloads\WhatsApp Image 2023-08-18 at 5.24.25 PM.jpeg');
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     box-shadow: 0px 0px 10px 1px black;
 }
 
 .loginbtn {
+<<<<<<< HEAD
     background-color: red;
     border-color:red;
+=======
+    background-color: #333;
+    border-color: #333;
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
     transition: background-color 0.3s, transform 0.3s;
 }
 

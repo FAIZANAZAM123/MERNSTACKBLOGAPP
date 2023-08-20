@@ -43,7 +43,11 @@ else{
             <div className="container mt-4" id="signup-container">
     <div className="row justify-content-center" id="signup-row">
         <div className="col-8" id="signup-col">
+<<<<<<< HEAD
             <div  style={{ backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpeg'})` }} className="card p-4 shadow animated-formsignup" id="signup-card">
+=======
+            <div className="card p-4 shadow animated-formsignup" id="signup-card">
+>>>>>>> a6ee661a970a83dbcd118fbc3c776412c5a8675b
                             <h2 className="text-center mb-4">BlogApp Signup</h2>
                             <form method="POST">
 
