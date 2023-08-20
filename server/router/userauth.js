@@ -135,6 +135,34 @@ router.get("/edituser", authenticate, (req, res) => {
     res.send(req.rootuser);
 
 });
+router.get("/likedBlogs", authenticate, async (req, res) => {
+    try {
+        const userData = await user.findById(req.userID).populate('likedBlogs');
+        if (!userData) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(userData.likedBlogs);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.post("/likeBlog/:blogId", authenticate, async (req, res) => {
+    try {
+        const { blogId } = req.params;
+        const userData = await user.findById(req.userID);
+        if (!userData) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        userData.likedBlogs.push(blogId);
+        await userData.save();
+        res.status(200).json({ message: 'Blog liked successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 router.patch("/editdata/:id",authenticate, async (req, res) => {
     try {

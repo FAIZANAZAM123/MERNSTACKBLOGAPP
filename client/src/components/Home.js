@@ -101,9 +101,6 @@ const Home = () => {
         <p className="text-center">You have no blogs.</p>
     )
 }
-
-
-
                 </div>
 
             </div>

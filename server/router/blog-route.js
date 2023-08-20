@@ -94,6 +94,25 @@ Blogrouter.post('/addblog', authenticate, async (req, res) => {
     return res.status(200).json({ blog });
 });
 
+Blogrouter.post("/savecomment",authenticate, async(req, res) => {
+    const {blogId,commentInput}=req.body;
+    if(!commentInput||!blogId){
+     return res.json({message:'Invalid Credentials'});
+    }
+ 
+    console.log("THIS IS THE BLOG ID",blogId,"THIS IS THE INPUT",commentInput);
+    const data=await Blog.findOne({_id:blogId});
+    
+    if(data)
+    {
+        console.log("Blog found, attempting to add comment...");
+
+        await data.addcomment(commentInput);
+        await data.save();
+     res.status(200).json('Comment Added successfully')
+    }
+ 
+ });
 
 
 

@@ -20,6 +20,32 @@ export const fetchblogs=createAsyncThunk('blogs/fetchBlogs',async()=>{
     return data.blogs;
 
 });
+export const fetchblogsbyID=createAsyncThunk('blogs/fetchBlogsbyID', async (blogId, { rejectWithValue })=>{
+   
+   try{ const response = await fetch(`/getBlogs/${blogId}`, {
+        method: 'GET',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        credentials: 'include'
+    });
+
+
+    const data = await response.json();
+console.log(data);
+    if (response.status !== 200 || !data) {
+        throw new Error(data.error || "Error fetching blogs");
+    }
+    return data.blog;
+}
+catch(err){
+    return rejectWithValue(err.message);
+
+}
+   
+
+});
 export const fetchUserBlogs = createAsyncThunk(
     'blogs/fetchUserBlogs',
     async (userId, { rejectWithValue }) => {
@@ -28,7 +54,7 @@ export const fetchUserBlogs = createAsyncThunk(
             const data = await response.json();
 
             if (!response.ok) {
-                console.log("NO BLOGS TP SHOW");
+                console.log("NO BLOGS To SHOW");
 
                 throw new Error(data.message);
             }
@@ -54,6 +80,12 @@ const blogSlice = createSlice({
             status: 'idle',
             error: null
         },
+        blog:{
+            items:[],
+            status: 'idle',
+            error: null
+            
+        }
       
 
     },
@@ -80,6 +112,17 @@ const blogSlice = createSlice({
         [fetchUserBlogs.rejected]: (state, action) => {
             state.userBlogs.status = 'failed';
             state.userBlogs.error = action.error.message;
+        },
+        [fetchblogsbyID.pending]: (state, action) => {
+            state.blog.status = 'loading';
+        },
+        [fetchblogsbyID.fulfilled]: (state, action) => {
+            state.blog.status = 'succeeded';
+            state.blog.items = action.payload;
+        },
+        [fetchblogsbyID.rejected]: (state, action) => {
+            state.blog.status = 'failed';
+            state.blog.error = action.error.message;
         }
     }
 });
