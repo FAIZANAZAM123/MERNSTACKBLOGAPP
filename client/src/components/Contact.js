@@ -12,7 +12,6 @@ const Contact = () => {
         const value = e.target.value;
         setcontactdata({ ...contactdata, [name]: value })
         console.log(contactdata)
-
     }
     const senddata = async (e) => {
         e.preventDefault();
@@ -21,12 +20,10 @@ const Contact = () => {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-
             },
             body: JSON.stringify({
                 name, email, message
             })
-
         })
         const data=await response.json();
         if(!data){
@@ -42,9 +39,6 @@ const Contact = () => {
             console.log('after sending',contactdata);
             
         }
-
-
-
     }
     const Contactuser = async () => {
         try {
@@ -73,12 +67,6 @@ const Contact = () => {
     useEffect(() => {
         Contactuser();
     }, []);
-
-
-
-
-
-
     return (
         <>
             <div className="container mt-5">

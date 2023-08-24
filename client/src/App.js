@@ -14,6 +14,8 @@ import BlogDetails from './components/BlogDetails'
 import MyBlog from './components/MyBlog';
 import Editprofile from './components/Editprofile'
 import {initialState,reducer} from './components/reducer/useReducer'
+import LikedBlogs from './components/LikedBlogs';
+import ContactBlogger from './components/ContactBlogger';
 export const UserContext = createContext();
 const App = () => {
   const [state, dispatch] = useReducer(reducer,initialState );
@@ -34,6 +36,8 @@ const App = () => {
 
 
            <Route exact path='/myblogs' element={<MyBlog />} />
+           <Route exact path='/likedblogs' element={<LikedBlogs />} />
+           <Route exact path='/contactblogger/:email' element={<ContactBlogger />} />
            <Route exact path='/login' element={<Login />} />
            <Route exact path='/signup' element={<Signup />} />
            <Route exact path='/logout' element={<Logout />} />

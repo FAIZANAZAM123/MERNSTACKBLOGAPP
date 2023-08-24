@@ -28,7 +28,6 @@ const Profile = () => {
             navigate('/login', { replace: true });
         }
     }
-
     useEffect(() => {
         profileuser();
     }, []);

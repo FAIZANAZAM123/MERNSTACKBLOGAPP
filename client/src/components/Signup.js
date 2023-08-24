@@ -35,15 +35,13 @@ else{
     window.alert('Registered successfully');
     navigate("/login", { replace: true });
 }
-
-
 }
     return (
         <>
             <div className="container mt-4" id="signup-container">
     <div className="row justify-content-center" id="signup-row">
         <div className="col-8" id="signup-col">
-            <div className="card p-4 shadow animated-formsignup" id="signup-card">
+            <div  style={{ backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpeg'})` }} className="card p-4 shadow animated-formsignup" id="signup-card">
                             <h2 className="text-center mb-4">BlogApp Signup</h2>
                             <form method="POST">
 
@@ -70,8 +68,6 @@ else{
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }

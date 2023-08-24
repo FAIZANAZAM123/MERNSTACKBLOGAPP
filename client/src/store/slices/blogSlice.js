@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-export const fetchblogs=createAsyncThunk('blogs/fetchBlogs',async()=>{
+export const fetchblogs = createAsyncThunk('blogs/fetchBlogs', async () => {
     const response = await fetch('/getBlogs', {
         method: 'GET',
         headers: {
@@ -9,42 +8,34 @@ export const fetchblogs=createAsyncThunk('blogs/fetchBlogs',async()=>{
         },
         credentials: 'include'
     });
-
-
     const data = await response.json();
 
     if (response.status !== 200 || !data) {
         throw new Error(data.error || "Error fetching blogs");
     }
-
     return data.blogs;
-
 });
-export const fetchblogsbyID=createAsyncThunk('blogs/fetchBlogsbyID', async (blogId, { rejectWithValue })=>{
-   
-   try{ const response = await fetch(`/getBlogs/${blogId}`, {
-        method: 'GET',
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        credentials: 'include'
-    });
+export const fetchblogsbyID = createAsyncThunk('blogs/fetchBlogsbyID', async (blogId, { rejectWithValue }) => {
 
-
-    const data = await response.json();
-console.log(data);
-    if (response.status !== 200 || !data) {
-        throw new Error(data.error || "Error fetching blogs");
+    try {
+        const response = await fetch(`/getBlogs/${blogId}`, {
+            method: 'GET',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            credentials: 'include'
+        });
+        const data = await response.json();
+        console.log(data);
+        if (response.status !== 200 || !data) {
+            throw new Error(data.error || "Error fetching blogs");
+        }
+        return data.blog;
     }
-    return data.blog;
-}
-catch(err){
-    return rejectWithValue(err.message);
-
-}
-   
-
+    catch (err) {
+        return rejectWithValue(err.message);
+    }
 });
 export const fetchUserBlogs = createAsyncThunk(
     'blogs/fetchUserBlogs',
@@ -52,13 +43,10 @@ export const fetchUserBlogs = createAsyncThunk(
         try {
             const response = await fetch(`/user/${userId}`);
             const data = await response.json();
-
             if (!response.ok) {
                 console.log("NO BLOGS To SHOW");
-
                 throw new Error(data.message);
             }
-
             return data.user.blogs;
 
         } catch (err) {
@@ -66,7 +54,6 @@ export const fetchUserBlogs = createAsyncThunk(
         }
     }
 );
-
 const blogSlice = createSlice({
     name: 'blogs',
     initialState: {
@@ -80,16 +67,14 @@ const blogSlice = createSlice({
             status: 'idle',
             error: null
         },
-        blog:{
-            items:[],
+        blog: {
+            items: [],
             status: 'idle',
             error: null
-            
-        }
-      
 
+        }
     },
-   
+
     extraReducers: {
         [fetchblogs.pending]: (state, action) => {
             state.allBlogs.status = 'loading';

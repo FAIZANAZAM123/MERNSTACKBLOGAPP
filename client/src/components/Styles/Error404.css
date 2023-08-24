@@ -1,4 +1,4 @@
-/* .error-container {
+.error-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,24 +9,21 @@
 .error-content {
     text-align: center;
     max-width: 500px;
+  
 }
 
-h1 {
+.error-h1 {
     font-size: 8rem;
     color: #e53e3e;
 }
 
-h2 {
-    font-size: 2rem;
-    margin: 20px 0;
-    color: #2d3748; 
-}
 
-p {
+
+.error-p {
     color: #718096; 
 }
 
-.home-button {
+.error-button {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
@@ -37,6 +34,6 @@ p {
     transition: background-color 0.3s;
 }
 
-.home-button:hover {
+.error-button:hover {
     background-color: #2b6cb0; 
-} */
+}
