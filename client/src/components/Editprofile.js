@@ -11,18 +11,21 @@ const Editprofile = () => {
     const [userdata, setuserdata] = useState({
         name: '', email: '', phone: '', password: ''
     });
-
     const storedata = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setuserdata({ ...userdata, [name]: value });
     }
-
     const senddata = async(e) => {
         e.preventDefault();
         const { name, email, phone, password } = userdata;
-        const passwordToSend = newPassword ? newPassword : password;
+        const passwordToSend = newPassword || password;
+        console.log(passwordToSend);
+        console.log(newPassword);
 
+        if(passwordToSend.length<6){
+            return window.alert('Password length is not valid minimum 6 length ')
+        }
         const res = await fetch(`/editdata/${userId}`, {
             method: 'PATCH',
             headers: {
@@ -30,7 +33,7 @@ const Editprofile = () => {
             },
             body: JSON.stringify({
                 name, email, phone, password: passwordToSend
-            })
+             }) 
         });
 
         const response = await res.json();
@@ -70,7 +73,7 @@ const Editprofile = () => {
     }, []);
 
     return (
-        <div className="container" id="edit-profile-container">
+        <div className="container mt-3" id="edit-profile-container">
         <div className="row justify-content-center">
             <div className="col-md-6">
                 <div className="card p-4 shadow" id="edit-profile-card">
@@ -114,7 +117,8 @@ const Editprofile = () => {
                                 <input 
                                     type="password" 
                                     name='newPassword' 
-                                    onChange={storedata} 
+                                    onChange={(e) => setNewPassword(e.target.value)}  
+                                    value={newPassword} 
                                     className="form-control input-field" 
                                     placeholder="Enter new password if you want to change" 
                                 />

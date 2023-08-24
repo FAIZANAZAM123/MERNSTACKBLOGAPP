@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import './Styles/Login.css'
-
 const Login = () => {
     const { state, dispatch } = useContext(UserContext)
     const navigate = useNavigate();
@@ -14,14 +13,10 @@ const Login = () => {
         const val = e.target.value;
         setcre({ ...cre, [name]: val });
         console.log(cre);
-
-
-
     }
     const authdata = async (e) => {
         e.preventDefault();
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userId');
+        
         const { email, password } = cre;
         const response = await fetch('/signin', {
             method: "POST",
@@ -34,18 +29,19 @@ const Login = () => {
             credentials: 'include'
         })
         const data = await response.json();
-
+       await  console.log(data);
         if(response.status === 201) {
             window.alert('you are loginned successfully');
             const userId = data.userId; 
-            console.log(userId);
+            const userName=data.userName;
             dispatch({ type: "SET_USER_ID", payload: userId }); 
             dispatch({ type: "USER", payload: true });
+            dispatch({ type: "USERNAME", payload:userName });
+
             navigate("/home", { replace: true });
         }
       else{
             window.alert('An error occured invalid credentials')
-        
       }
 
     }
@@ -54,7 +50,7 @@ const Login = () => {
             <div className="container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-8">
-                        <div className="cardlogin p-4  animated-form">
+                        <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpeg'})` }} className="cardlogin p-4  animated-form">
                             <h2 className="text-center   mb-4">BlogApp Login</h2>
                             <form method='POST'>
                                 <div className="mb-3">
@@ -71,11 +67,6 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-
-
-
-
-
         </>
     )
 }

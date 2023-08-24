@@ -20,13 +20,13 @@ background-size: cover;
 
 .home-title {
     animation: slideInLeft 2s;
-    color:black;
+    color:white;
     font-weight: 300;
 }
 
 .home-text {
     animation: fadeIn 3s;
-    color:black;
+    color:white;
     font-weight: 500;
     
 }
@@ -35,6 +35,8 @@ background-size: cover;
     width: 50%;
     margin: 20px auto;
     animation: slideInRight 2s;
+    height: 1px;
+background-color: brown;
 }
 
 @keyframes slideInLeft {

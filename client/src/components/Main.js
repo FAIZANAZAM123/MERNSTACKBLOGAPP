@@ -9,7 +9,9 @@ const Main = () => {
                     <p className="lead home-text">
                         The place where thoughts come to life.
                     </p>
-                    <hr className="my-4 home-divider" />
+                    <div className='home-divider'>
+
+                    </div>
                     <p className="home-text">
                         Dive into the world of stories, insights, and experiences.
                     </p>
@@ -18,12 +20,6 @@ const Main = () => {
                     </p>
                 </div>
             </div>
-
-
-
-
-
-
         </>
     )
 }

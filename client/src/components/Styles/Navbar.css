@@ -27,7 +27,9 @@
 .navbar 
 
     {
-        background: url('C:\Users\New\Downloads\WhatsApp Image 2023-08-18 at 5.24.25 PM.jpeg');
+        
+        /* background: url('C:\Users\New\Downloads\WhatsApp Image 2023-08-18 at 5.24.25 PM.jpeg'); */
+        /* background: url(''); */
         background-repeat: no-repeat;
         background-size: cover;
     
@@ -36,7 +38,9 @@
         transition: all 0.3s ease;
     }
     
-
+    .hidden {
+        display: none;
+    }
 
 
 .navbar-brand {

@@ -71,6 +71,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12);
+        console.log("here ",this.password)
     }
     next();
 })
@@ -100,6 +101,33 @@ userSchema.methods.addmessage = async function (name, email, message) {
 
     }
 }
+userSchema.methods.addliked = async function (blogId) {
+    try{
+    if (!this.likedBlogs.includes(blogId)) {
+        this.likedBlogs.push(blogId);
+        await this.save();
+    }
+    return this.likedBlogs;
+}
+catch(err){
+console.log(err);
+}
+
+}
+userSchema.methods.unlikeBlog = async function(blogId) {
+    try {
+        
+        this.likedBlogs = this.likedBlogs.filter((currentBlogId) => currentBlogId.toString() !== blogId.toString());
+
+        
+        await this.save();
+        return this.likedBlogs;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 
 
 const User = new mongoose.model('Registration', userSchema);
