@@ -86,7 +86,7 @@ const Editprofile = () => {
         <div className="container mt-3" id="edit-profile-container">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className="card p-4 shadow" id="edit-profile-card">
+                    <div style={{ backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpeg'})` }} className="card p-4 shadow" id="edit-profile-card">
                         <h2 className="text-center" id="edit-profile-title">Edit User Profile</h2>
                         <form method="POST" enctype="multipart/form-data">
                             <div className="mb-3" id="edit-name-input">
