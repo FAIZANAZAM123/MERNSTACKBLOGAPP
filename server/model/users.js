@@ -24,7 +24,22 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
-
+    interests: [
+        {
+            type: String,
+            required: true,
+        }
+    ],
+    profileImage: {
+        type: String,
+        default:''
+        // default: 'https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png'
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    
     messages: [
         {
             name: {
@@ -46,7 +61,7 @@ const userSchema = new mongoose.Schema({
         {
             type: mongoose.Types.ObjectId,
             ref: "Blog",
-            required:true
+            required: true
         }
     ],
     blogs: [
@@ -71,7 +86,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12);
-        console.log("here ",this.password)
+        console.log("here ", this.password)
     }
     next();
 })
@@ -102,24 +117,24 @@ userSchema.methods.addmessage = async function (name, email, message) {
     }
 }
 userSchema.methods.addliked = async function (blogId) {
-    try{
-    if (!this.likedBlogs.includes(blogId)) {
-        this.likedBlogs.push(blogId);
-        await this.save();
+    try {
+        if (!this.likedBlogs.includes(blogId)) {
+            this.likedBlogs.push(blogId);
+            await this.save();
+        }
+        return this.likedBlogs;
     }
-    return this.likedBlogs;
-}
-catch(err){
-console.log(err);
-}
+    catch (err) {
+        console.log(err);
+    }
 
 }
-userSchema.methods.unlikeBlog = async function(blogId) {
+userSchema.methods.unlikeBlog = async function (blogId) {
     try {
-        
+
         this.likedBlogs = this.likedBlogs.filter((currentBlogId) => currentBlogId.toString() !== blogId.toString());
 
-        
+
         await this.save();
         return this.likedBlogs;
     } catch (error) {

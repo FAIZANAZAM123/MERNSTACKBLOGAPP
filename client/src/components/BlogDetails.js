@@ -6,12 +6,13 @@ import { RotatingSquare as Loader } from 'react-loader-spinner';
 import { Circles as Loader1 } from 'react-loader-spinner';
 import { UserContext } from '../App';
 import { useNavigate, Link } from 'react-router-dom';
+import { fetchUserProfile } from '../store/slices/userSlice';
 import './Styles/BlogDetails.css'
 const BlogDetails = () => {
   const { blogId } = useParams();
   const ref = useRef(null);
   const { state } = useContext(UserContext);
-  const { userId,userName} = state;
+  const { userId, userName } = state;
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs.blog.items);
   const blogStatus = useSelector((state) => state.blogs.blog.status);
@@ -21,8 +22,69 @@ const BlogDetails = () => {
   const [commentInput, setCommentInput] = useState('');
   const [isCommentLoading, setIsCommentLoading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [clapsCount, setClapsCount] = useState({});
+  const [color, setcolor] = useState({})
+  const userdata = useSelector((state) => state.user.profile);
+  const userStatus = useSelector((state) => state.user.status);
+  const userError = useSelector((state) => state.user.error);
+let isloading=false;
   const bloggeremail = blogs && blogs.user ? blogs.user.email : '';
-  console.log("This is the name",userName);
+  console.log("This is the name", userName);
+//   const handleImageError = (e,imageid) => {
+//     console.log("comed here");
+//     console.log(userdata?userdata._id:'not fond')
+//     if (userdata) {
+//       console.log("comed here in if");
+
+//         e.target.src = `http://localhost:5000/${userdata.profileImage}`;
+//     } else {
+//         e.target.src = 'https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png';
+//     }
+// }
+
+
+const handleImageError = (e) => {
+
+
+           e.target.src = 'https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png';
+
+  
+}
+
+
+  const handleClap = async (blogId, blogclaps) => {
+    setcolor(prevColors => {
+      const currentColor = prevColors[blogId] || (blogclaps && blogclaps.some(clap => clap.user === userId) ? 'danger' : 'primary');
+      return {
+        ...prevColors,
+        [blogId]: currentColor === 'danger' ? 'primary' : 'danger'
+      };
+    });
+    try {
+      const response = await fetch(`/clapblogs/${blogId}`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+        credentials: 'include'
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        const updatedClapCount = data.claps.length;
+        setClapsCount(prevState => ({
+          ...prevState,
+          [blogId]: updatedClapCount
+        }));
+      } else {
+        console.log('Clap action failed');
+      }
+    } catch (error) {
+      console.log('Error while clapping:', error);
+    }
+  };
+
   const handleLike = async () => {
     setIsLiked(!isLiked);
     const url = isLiked ? '/unlikeBlog/' + blogId : '/likeBlog/' + blogId;
@@ -50,6 +112,12 @@ const BlogDetails = () => {
   };
   const addComment = async (blogId, commentInput) => {
     setIsCommentLoading(true);
+    if(commentInput.length===0)
+    {
+      setIsCommentLoading(false);
+
+      return window.alert('You have entered nothing in comment');
+    }
     setCommentInput('');
     console.log(blogId);
     console.log(commentInput);
@@ -69,25 +137,30 @@ const BlogDetails = () => {
 
       setComments(prevComments => [
         {
-            comment: commentInput,
-           
+          comment: commentInput,
+
         },
         ...prevComments
-    ]);      setCommentInput('');
-
+      ]); setCommentInput('');
+      
     }
+    console.log("THIS IS THE DATA IN SAVECOMMENTS",data);
     if (!data) {
       console.log('comment not saved');
     }
+
     // dispatch(fetchblogsbyID(blogId));
-
-
+ 
     setIsCommentLoading(false);
+
+
 
   }
   const getdata = async () => {
     console.log(blogId);
     dispatch(fetchblogsbyID(blogId));
+    dispatch(fetchUserProfile());
+
 
     if (blogs && blogs.comments) {
       setComments([...blogs.comments].reverse());
@@ -126,8 +199,19 @@ const BlogDetails = () => {
       setComments([...blogs.comments].reverse());
     }
   }, [blogs]);
-  console.log(blogs);
+  useEffect(() => {
+    const clapCounts = {};
+    if (blogs && blogs.claps) {
+      clapCounts[blogs._id] = blogs.claps.length;
+    }
+    setClapsCount(clapCounts);
+
+    setClapsCount(clapCounts);
+  }, [blogs]);
+  console.log("These are the blogs", blogs);
   if (blogStatus === 'loading') {
+  
+    
     return <div className="loader-container">
       <Loader
         color="pink"
@@ -135,12 +219,17 @@ const BlogDetails = () => {
         width={100}
       />
     </div>
+    
+ 
   }
   if (blogStatus === 'failed') {
     return navigate('/login', { replace: true });
   }
+  console.log("this is the user data", userdata)
   return (
     <>
+      {console.log("these are the comments", comments)
+      }
       <div className='blogContainer'>
         {
           blogs && blogs.content && blogs.content.map((blog, idx) => {
@@ -169,22 +258,83 @@ const BlogDetails = () => {
         <button>
           <Link style={{ textDecoration: "none", color: 'white' }} to={`/contactblogger/${bloggeremail}`}> Contact Blogger </Link>
         </button>
+        <button
+          className={`bg-${color[blogId] || (blogs.claps && blogs.claps.some(clap => clap.user === userId) ? 'danger ' : 'primary ')}`}
+          onClick={() => handleClap(blogId, blogs.claps, clapsCount[blogId])}
+        >
+          {clapsCount[blogId] || 0} Clap {clapsCount[blogId] && clapsCount[blogId] > 0 ? '👏' : ''}
+
+        </button>
+
+
+        {/* This is the card */}
+
+
+
+
+
       </div>
+
+      <div className='BloggerDetails'>
+        <h1 className='COMMENTS h-100 text-center bg-dark text-light '>Blogger Details</h1>
+      </div>
+      <div className="maincardbriefauthor">
+        <div className=" cardprofileblogdetails card " style={{ backgroundImage: `url(${process.env.PUBLIC_URL + '/image.jpeg'})`, maxWidth: "540px", marginLeft: "auto", marginRight: "auto", display: "block" }} >
+
+          {console.log(blogs && blogs.user && blogs.user.profileImage ? blogs.user.profileImage : '')}
+          {console.log("this is from redux",userdata?userdata.profileImage:'not found')}
+
+          <img
+            className='img-fluid  errorimageblogdetails '
+
+            src={` http://localhost:5000/${blogs && blogs.user && blogs.user.profileImage ? blogs.user.profileImage : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRefViTsx85xM_U01LKGg8JF353Bjkywkx8w&usqp=CAU'}`}
+            alt="No pic"
+            onError={handleImageError}
+          />
+          {
+            blogs && blogs.user ?
+              <div className=" mt-3 cardprofileblogdetailscard-body card-body">
+                <h5 className="card-title text-center text-light">{blogs.user.name}</h5>
+                <p className="card-text text-center text-light">{blogs.user.email}</p>
+                <p className="card-text text-center text-light">{blogs.user.phone}</p>
+
+                <button className='buttontocontact' style={{ marginTop: "20px", height: "100%" }}>
+
+                  <Link style={{ textDecoration: "none", color: 'white' }} to={`mailto:${bloggeremail}?subject=Regarding Your Blog on ${blogs && blogs.content && blogs.content[0].value}`}>Contact the author</Link>
+
+                </button>
+              </div> : ''
+          }
+        </div>
+
+      </div>
+
 
       <h1 className='bg-dark text-light COMMENTS '>COMMENTS</h1>
       <div className='commentsSection m-0'>
 
-
         <ul className="list-group">
           {blogs && blogs.comments && comments && comments.map((commentObj, index) => (
+            < li className="list-group-item" key={index} >
+              <img style={{ height: '40px', width: '30px' }}
+                className='img-fluid rounded-start '
+                src={`http://localhost:5000/${commentObj.user && commentObj.user.profileImage ? commentObj.user.profileImage :'' }`}
+                alt="No pic"
+                // onError={handleImageError}
+                onError={handleImageError}
 
-            <li className="list-group-item" key={index}>
-              <i className="fas fa-user-circle fa-2x mr-2"></i>
+              />
+
+            
+
+
+
+
               <span className=' spanBlogdetails' >
-                {console.log("this is UserName",userName)}
-              {commentObj.user ? commentObj.user.name :userName}</span>
+                {console.log("this is UserName", userName)}
+                {commentObj.user ? commentObj.user.name : userName}</span>
               <br />
-              {commentObj.comment }
+              {commentObj.comment}
             </li>
           ))}
         </ul>
@@ -215,7 +365,7 @@ const BlogDetails = () => {
             }}>Post Comment</button>
           </div>
         </form>
-      </div>
+      </div >
     </>
   );
 }

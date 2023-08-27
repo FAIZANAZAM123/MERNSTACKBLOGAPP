@@ -10,6 +10,8 @@ require('./db/conn')
 app.use(express.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
+
 const corsOptions = {
     origin: 'http://localhost:5000',
     credentials: true,

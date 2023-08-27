@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import './Styles/Login.css'
+
 const Login = () => {
     const { state, dispatch } = useContext(UserContext)
     const navigate = useNavigate();
@@ -13,6 +14,9 @@ const Login = () => {
         const val = e.target.value;
         setcre({ ...cre, [name]: val });
         console.log(cre);
+
+
+
     }
     const authdata = async (e) => {
         e.preventDefault();
@@ -34,14 +38,15 @@ const Login = () => {
             window.alert('you are loginned successfully');
             const userId = data.userId; 
             const userName=data.userName;
+            const imageofuser=data.imageofuser
             dispatch({ type: "SET_USER_ID", payload: userId }); 
             dispatch({ type: "USER", payload: true });
             dispatch({ type: "USERNAME", payload:userName });
-
             navigate("/home", { replace: true });
         }
       else{
-            window.alert('An error occured invalid credentials')
+            return window.alert('An error occured invalid credentials')
+        
       }
 
     }
@@ -67,6 +72,11 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+
+
+
+
+
         </>
     )
 }

@@ -1,7 +1,10 @@
 export const initialState = {
     isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn')) || false,
     userId: JSON.parse(localStorage.getItem('userId')) || null,
-    userName:JSON.parse(localStorage.getItem('userName')) || null
+    userName: JSON.parse(localStorage.getItem('userName')) || null,
+
+
+
 };
 
 export const reducer = (state, action) => {
@@ -20,6 +23,7 @@ export const reducer = (state, action) => {
             localStorage.setItem('userName', JSON.stringify(action.payload));
 
             return newState;
+      
         default:
             return state;
     }

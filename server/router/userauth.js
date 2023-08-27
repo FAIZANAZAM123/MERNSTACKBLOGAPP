@@ -11,8 +11,25 @@ const userController = require('../Controllers/UsersController');
 // const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN);
 // oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-router.post("/register",userController.register);
-router.post("/signin",userController.signIn);
+const multer = require('multer');
+const fs = require('fs');
+const dir = './uploads';
+
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+}
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+router.post("/register", upload.single('profileImage'), userController.register);
+router.post("/signin", userController.signIn);
 router.get("/logout", authenticate, userController.logout);
 router.get("/contact", authenticate, userController.getContact);
 router.post("/contact", authenticate, userController.postContact);
@@ -22,5 +39,5 @@ router.get("/edituser", authenticate, userController.editUser);
 router.get("/likedBlogs", authenticate, userController.likedBlogs);
 router.post("/likeBlog/:blogId", authenticate, userController.likeBlogbyId);
 router.delete("/unlikeBlog/:blogId", authenticate, userController.unlikeBlogbyblogID);
-router.patch("/editdata/:id", authenticate, userController.updatedata);
+router.patch("/editdata/:id", authenticate,upload.single('profileImage'), userController.updatedata);
 module.exports = router;

@@ -2,35 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Styles/Profile.css';
 import { Link } from 'react-router-dom';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserProfile } from '../store/slices/userSlice';
 const Profile = () => {
     const navigate = useNavigate();
-    const [userdata, setuserdata] = useState();
-    
-    const profileuser = async () => {
-        try {
-            const response = await fetch('/edituser', {
-                method: 'GET',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                credentials: "include"
-            });
-            
-            const data = await response.json();
-            setuserdata(data);
+    const dispatch = useDispatch();
+    const userdata = useSelector(state => state.user.profile);
+    const status = useSelector(state => state.user.status);
+    const error = useSelector(state => state.user.error);
 
-            if (response.status !== 200 || !data) {
-                console.error("Error in response:", data);
-                throw new Error(response.error);
-            }
-        } catch (error) {
-            navigate('/login', { replace: true });
-        }
-    }
     useEffect(() => {
-        profileuser();
+    
+            dispatch(fetchUserProfile());
+    
     }, []);
+    // const profileuser = async () => {
+    //     // try {
+    //     //     const response = await fetch('/edituser', {
+    //     //         method: 'GET',
+    //     //         headers: {
+    //     //             Accept: "application/json",
+    //     //             "Content-Type": "application/json"
+    //     //         },
+    //     //         credentials: "include"
+    //     //     });
+
+    //     //     const data = await response.json();
+    //     //     setuserdata(data);
+
+    //     //     if (response.status !== 200 || !data) {
+    //     //         console.error("Error in response:", data);
+    //     //         throw new Error(response.error);
+    //     //     }
+    //     // } catch (error) {
+    //     //     navigate('/login', { replace: true });
+    //     // }
+    // }
+  
 
     return (
         <>
@@ -41,6 +50,16 @@ const Profile = () => {
                             <div className="profile-card" id="profile-card-container">
                                 <div className="card-body">
                                     <div className="text-center">
+
+                                        {/* Profile Image */}
+                                        <div className="profile-image-container imageprofilecontainer img-fluid">
+                                            <img
+                                                src={userdata && userdata.profileImage ? userdata.profileImage : "default-image-url-here"}
+                                                alt="Profile"
+                                                className="profile-image"
+                                            />
+                                        </div>
+
                                         <h3 className="profile-name" id="profile-name-text">{userdata ? userdata.name : ''}</h3>
                                     </div>
                                     <ul className="profile-details list-unstyled mt-5 text-center" id="profile-details-list">
@@ -60,6 +79,9 @@ const Profile = () => {
             </section>
         </>
     );
+
+
+
 }
 
 export default Profile;

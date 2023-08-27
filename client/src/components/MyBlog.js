@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserBlogs } from '../store/slices/blogSlice';
+import { fetchUserProfile } from '../store/slices/userSlice';
+
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import { RotatingSquare as Loader } from 'react-loader-spinner';
@@ -12,36 +14,47 @@ const MyBlog = () => {
     const blogs = useSelector((state) => state.blogs.userBlogs.items);
     const blogStatus = useSelector((state) => state.blogs.userBlogs.status);
     const blogError = useSelector((state) => state.blogs.userBlogs.error);
+
+    const userProfile = useSelector((state) => state.user.profile); 
+    const userStatus = useSelector((state) => state.user.status);   
+    const userError = useSelector((state) => state.user.error);      
     const { state } = useContext(UserContext);
     const { userId } = state;
 
-    const profileuser = async () => {
-        try {
-            const response = await fetch('/edituser', {
-                method: 'GET',
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                credentials: "include"
-            });
-            
-            const data = await response.json();
-
-            if (response.status !== 200 || !data) {
-                console.error("Error in response:", data);
-                throw new Error(response.error);
-            }
-        } catch (error) {
-            navigate('/login', { replace: true });
-        }
+    if(userStatus==='failed')
+    {
+        navigate('/login', { replace: true });
     }
-    useEffect(() => {
-        profileuser();
-        dispatch(fetchUserBlogs(userId));
-    }, [dispatch, userId]);
+    
 
-    if (blogStatus === 'loading') {
+    // const profileuser = async () => {
+    //     try {
+    //         const response = await fetch('/edituser', {
+    //             method: 'GET',
+    //             headers: {
+    //                 Accept: "application/json",
+    //                 "Content-Type": "application/json"
+    //             },
+    //             credentials: "include"
+    //         });
+            
+    //         const data = await response.json();
+
+    //         if (response.status !== 200 || !data) {
+    //             console.error("Error in response:", data);
+    //             throw new Error(response.error);
+    //         }
+    //     } catch (error) {
+    //         navigate('/login', { replace: true });
+    //     }
+    // }
+    useEffect(() => {
+        // profileuser();
+        dispatch(fetchUserProfile()); 
+        dispatch(fetchUserBlogs(userId));
+    }, []);
+
+    if (blogStatus === 'loading'|| userStatus === 'loading') {
         return (
             <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                 <Loader color="pink" height={100} width={100} />
@@ -49,16 +62,16 @@ const MyBlog = () => {
         );
     }
 
-    if (blogStatus === 'failed') {
-        return (
-            <div className="container">
-                
-                    Failed to load blogs. Please try again later.
-            </div>
-        );
+    if (blogStatus === 'failed' || userStatus === 'failed') {
+     return (
+        <div className=' maincontainermyblogouter d-flex justify-content-center align-items-center'>
+            <h4 className='text-light'>You have no Blogs</h4>
+        </div>
+     )
     }
 
     return (
+        <div className="maincontainermyblogouter">
         <div className="pic">
         <div  className="container containermyblog ">
         <h2  className="myblogh2 mb-4"><span className='spanMyblog'>My Blogs</span> </h2>
@@ -93,6 +106,7 @@ const MyBlog = () => {
                 You have no blogs.
             </div>
         )}
+    </div>
     </div>
     </div>
     );

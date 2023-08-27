@@ -5,6 +5,8 @@
     animation: logoAnimation 3s ease-in-out infinite; 
     display: inline-block;
     color:pink;
+    background-color: transparent !important;
+    
     
 }
 
@@ -36,6 +38,11 @@
         padding: 15px 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
+    }
+    .active {
+        /* Some styles for your active link, for example: */
+        background-color: red;
+        color: white !important;
     }
     
     .hidden {
