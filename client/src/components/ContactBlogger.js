@@ -12,7 +12,7 @@ const ContactBlogger = () => {
         email: '',
         message: ' '
     });
-    const [loading, setLoading] = useState(false);  // New state for loading
+    const [loading, setLoading] = useState(false); 
     const handleinput = (e) => {
         const name = e.target.name;
         const value = e.target.value;

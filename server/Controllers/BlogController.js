@@ -17,7 +17,7 @@ exports.getBlogs = async (req, res) => {
     return res.status(200).json({ blogs })
 
 }
-exports.getBlogsbyId = async (req, res)=> {
+exports.getBlogsbyId = async (req, res) => {
     const id = req.params.id;
     let blog;
     try {
@@ -107,19 +107,29 @@ exports.Addblog = async (req, res) => {
 
 exports.SaveThecomment = async (req, res) => {
     const { blogId, commentInput, userId } = req.body;
+
     if (!commentInput || !blogId || !userId) {
-        return res.json({ message: 'Invalid Credentials' });
+        return res.status(400).json({ message: 'Invalid Credentials' }); 
     }
+
     console.log("This is userId", userId);
     console.log("THIS IS THE BLOG ID", blogId, "THIS IS THE INPUT", commentInput);
-    const data = await Blog.findOne({ _id: blogId });
 
-    if (data) {
+    try {
+        const data = await Blog.findOne({ _id: blogId });
+
+        if (!data) {
+            return res.status(404).json({ message: 'Blog not found' });
+        }
+
         console.log("Blog found, attempting to add comment...");
 
         await data.addcomment(commentInput, userId);
         await data.save();
-        res.status(200).json('Comment Added successfully')
-    }
 
+        res.status(200).json({ message: 'Comment Added successfully'});
+    } catch (error) {
+        console.error('Error saving comment:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 }

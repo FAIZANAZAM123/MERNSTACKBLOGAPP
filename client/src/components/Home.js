@@ -15,7 +15,6 @@ const Home = () => {
     const [LikedBlogs, setLikedBlogs] = useState([]);
     const [clickedlike, setclickedlike] = useState();
     const [clapsCount, setClapsCount] = useState({});
-    const [hasClapped, setHasClapped] = useState(false);
     const [color, setcolor] = useState({})
     const { state } = useContext(UserContext);
     const { userId } = state;
@@ -126,9 +125,12 @@ const Home = () => {
     }, []);
     useEffect(() => {
         const clapCounts = {};
+        console.log(blogs)
+        console.log("this is user Id",userId)
         blogs.forEach(blog => {
             clapCounts[blog._id] = blog.claps ? blog.claps.length : 0;
         });
+        console.log("this is clap counts",clapCounts);
         setClapsCount(clapCounts);
     }, [blogs]);
 
@@ -150,6 +152,7 @@ const Home = () => {
 
     return (
         <>
+        <div className="outer">
             <div className={blogs ? '' : 'homecontainer'}>
                 <div className=" container ">
 
@@ -224,7 +227,7 @@ const Home = () => {
                                                         </svg>
 
                                                         <button
-                                                            className={`bg-${color[blog._id] || (blog.claps.some(clap => clap.user === userId) ? 'danger' : 'primary')}`}
+                                                            className={`bg-${color[blog._id] || (blog.claps.some(clap => clap.user === userId) ? 'danger ' : 'primary ')}`}
                                                             onClick={() => handleClap(blog._id, blog.claps, clapsCount[blog._id])}
                                                         >
                                                                 {clapsCount[blog._id] || 0} Clap {clapsCount[blog._id] && clapsCount[blog._id] > 0 ? '👏' : ''}
@@ -237,11 +240,14 @@ const Home = () => {
                                     })}
                                 </div>
                             ) : (
-                                <p className="text-center">You have no blogs.</p>
+                               <div className="p ">
+                                 <p className="text-center">No blogs To show.</p>
+                               </div>
                             )
                         }
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );

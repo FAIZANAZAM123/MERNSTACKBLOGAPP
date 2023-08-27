@@ -6,9 +6,17 @@
 
     padding: 20px;
 }
-.homecontainer{
+.outer{
+    min-height: 100vh;
+
+}
+.p{
+display: flex;
+justify-content: center;
+align-items: center;
+color: white;
+font-size: 2.2rem;
     height: 100vh;
-    background:local;
 }
 .loader-container{
     display: flex;
@@ -52,9 +60,9 @@
 }
 
 .innercard-img-top {
-    width: 100%;
+    width: auto;
     height: 180px;
-    object-fit: cover;
+    margin-top: 2px;
 }
 
 .innercard-body {
@@ -65,15 +73,24 @@
 }
 
 .btnhome {
-    padding: 10px 20px;
+    
     border-radius: 8px;
-    background-color: #007BFF;
+    background-color:darkblue;
     border: none;
     color: #fff;
     cursor: pointer;
     margin-top: auto;
+    width: fit-content;
     
     transition: background-color 0.3s ease;
+}
+.clappedblogs{
+    color:white !important;
+    background-color: red !important;
+}
+.notclapped{
+    color:white !important;
+    background-color: blue !important;
 }
 
 .btnhome:hover {
